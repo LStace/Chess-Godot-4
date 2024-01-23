@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqhu2betqv5v8"]
+[gd_scene load_steps=5 format=3 uid="uid://dqhu2betqv5v8"]
 
 [ext_resource type="TileSet" uid="uid://dltu24ovhf1uq" path="res://TileSets/Board.tres" id="1_y431g"]
-[ext_resource type="Texture2D" uid="uid://crgkmli8ab7gb" path="res://icon.svg" id="2_lx23g"]
+[ext_resource type="PackedScene" uid="uid://dylx6laro7dpl" path="res://Scenes/Chess_Piece.tscn" id="2_fbc2b"]
+[ext_resource type="Script" path="res://Scripts/Board.gd" id="2_uqt35"]
+[ext_resource type="PackedScene" uid="uid://3ad0wy0o4jbe" path="res://Scenes/Tile.tscn" id="3_7m483"]
 
 [node name="Main" type="Node2D"]
 
@@ -9,10 +11,210 @@
 tile_set = ExtResource("1_y431g")
 format = 2
 layer_0/tile_data = PackedInt32Array(-65536, 2, 0, 65535, 2, 0, 0, 65538, 0, -1, 65538, 0, -65535, 65538, 0, -65533, 65538, 0, -2, 2, 0, -4, 2, 0, -3, 65538, 0, -65534, 2, 0, -196608, 2, 0, -131072, 65538, 0, -262144, 65538, 0, 131071, 65538, 0, 262143, 65538, 0, 196607, 2, 0, -131076, 2, 0, -196611, 2, 0, -196609, 2, 0, -131074, 2, 0, -65539, 2, 0, 131068, 2, 0, 65533, 2, 0, -65537, 2, 0, -262143, 2, 0, -262141, 2, 0, -196606, 2, 0, -131071, 2, 0, 131070, 2, 0, 196605, 2, 0, 262140, 2, 0, 262142, 2, 0, 65536, 2, 0, 1, 2, 0, -131069, 2, 0, 3, 2, 0, 65538, 2, 0, 131073, 2, 0, 196608, 2, 0, 196610, 2, 0, 131075, 2, 0, 262141, 65538, 0, 196606, 65538, 0, 196604, 65538, 0, 131069, 65538, 0, 65534, 65538, 0, 65532, 65538, 0, -65540, 65538, 0, -65538, 65538, 0, -131075, 65538, 0, -196612, 65538, 0, -196610, 65538, 0, -131073, 65538, 0, -196607, 65538, 0, -262142, 65538, 0, -196605, 65538, 0, -131070, 65538, 0, 2, 65538, 0, 65537, 65538, 0, 131072, 65538, 0, 196609, 65538, 0, 131074, 65538, 0, 65539, 65538, 0, 196611, 65538, 0, -262140, 131074, 0, -196604, 131074, 0, -131068, 131074, 0, -65532, 131074, 0, 4, 131074, 0, 65540, 131074, 0, 131076, 131074, 0, 196612, 131074, 0, 262148, 131074, 0, 262147, 131074, 0, 262146, 131074, 0, 262145, 131074, 0, 262144, 131074, 0, 327679, 131074, 0, 327678, 131074, 0, 327677, 131074, 0, 327676, 131074, 0, 327675, 131074, 0, 262139, 131074, 0, 196603, 131074, 0, 131067, 131074, 0, 65531, 131074, 0, -5, 131074, 0, -65541, 131074, 0, -131077, 131074, 0, -196613, 131074, 0, -262149, 131074, 0, -262148, 131074, 0, -262147, 131074, 0, -262146, 131074, 0, -262145, 131074, 0, -327680, 131074, 0, -327679, 131074, 0, -327678, 131074, 0, -327677, 131074, 0, -327676, 131074, 0)
+script = ExtResource("2_uqt35")
+
+[node name="Tiles" type="Node2D" parent="Board"]
+
+[node name="A8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, -224)
+
+[node name="B8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, -224)
+
+[node name="C8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, -224)
+
+[node name="D8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, -224)
+
+[node name="E8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, -224)
+
+[node name="F8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, -224)
+
+[node name="G8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, -224)
+
+[node name="H8" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, -224)
+
+[node name="A6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, -96)
+
+[node name="B6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, -96)
+
+[node name="C6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, -96)
+
+[node name="D6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, -96)
+
+[node name="E6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, -96)
+
+[node name="F6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, -96)
+
+[node name="G6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, -96)
+
+[node name="H6" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, -96)
+
+[node name="A4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, 32)
+
+[node name="B4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, 32)
+
+[node name="C4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, 32)
+
+[node name="D4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, 32)
+
+[node name="E4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, 32)
+
+[node name="F4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, 32)
+
+[node name="G4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, 32)
+
+[node name="H4" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, 32)
+
+[node name="A2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, 160)
+
+[node name="B2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, 160)
+
+[node name="C2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, 160)
+
+[node name="D2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, 160)
+
+[node name="E2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, 160)
+
+[node name="F2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, 160)
+
+[node name="G2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, 160)
+
+[node name="H2" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, 160)
+
+[node name="A1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, 224)
+
+[node name="B1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, 224)
+
+[node name="C1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, 224)
+
+[node name="D1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, 224)
+
+[node name="E1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, 224)
+
+[node name="F1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, 224)
+
+[node name="H1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, 224)
+
+[node name="G1" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, 224)
+
+[node name="A3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, 96)
+
+[node name="B3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, 96)
+
+[node name="C3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, 96)
+
+[node name="D3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, 96)
+
+[node name="E3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, 96)
+
+[node name="F3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, 96)
+
+[node name="G3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, 96)
+
+[node name="H3" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, 96)
+
+[node name="A5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, -32)
+
+[node name="B5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, -32)
+
+[node name="C5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, -32)
+
+[node name="D5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, -32)
+
+[node name="E5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, -32)
+
+[node name="F5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, -32)
+
+[node name="H5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, -32)
+
+[node name="G5" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, -32)
+
+[node name="A7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-224, -160)
+
+[node name="B7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-160, -160)
+
+[node name="C7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-96, -160)
+
+[node name="D7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(-32, -160)
+
+[node name="E7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(32, -160)
+
+[node name="F7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(96, -160)
+
+[node name="H7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(224, -160)
+
+[node name="G7" parent="Board/Tiles" instance=ExtResource("3_7m483")]
+position = Vector2(160, -160)
+
+[node name="Pieces" type="Node2D" parent="Board"]
+
+[node name="ChessPiece" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_fbc2b")]
+position = Vector2(-224, 224)
+startingTile = NodePath("../../Tiles/A1")
+
+[node name="ChessPiece2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_fbc2b")]
+position = Vector2(-160, 224)
+startingTile = NodePath("../../Tiles/B1")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="ChessPiece" type="Sprite2D" parent="."]
-position = Vector2(-224, 224)
-scale = Vector2(0.296875, 0.296875)
-texture = ExtResource("2_lx23g")
