@@ -14,13 +14,16 @@ var isMoving : bool = false
 @onready var chessBoard : TileMap = get_node("/root/Main/Board")
 
 #Signal to deselect piece
-signal Deselect(chessPiece)
+signal Turn_Over()
 
 func _ready():
 	#Sets piece up
 	$Sprite.texture = pieceSprite
 	global_position = startingTile.global_position
-	Deselect.connect(chessBoard._on_Chess_Piece_Deselect)
+	Turn_Over.connect(chessBoard._on_Turn_Over)
+	
+	if !isWhite:
+		$Sprite.modulate = "000000"
 
 
 func _physics_process(delta):
@@ -28,6 +31,6 @@ func _physics_process(delta):
 	if isMoving == true:
 		if targetTile.global_position == global_position:
 			isMoving = false
-			emit_signal("Deselect")
+			emit_signal("Turn_Over")
 		else:
 			global_position = global_position.move_toward(targetTile.global_position, 1000 * delta)

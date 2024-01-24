@@ -33,6 +33,7 @@ func _input(event):
 
 func _on_Tile_Clicked(tile, tilePiece):
 	if tilePiece != null:
+		#Player can only select their pieces
 		if selectedPiece == null and whiteTurn == tilePiece.isWhite:
 			SelectPiece(tilePiece)
 		#add taking code later
@@ -40,9 +41,10 @@ func _on_Tile_Clicked(tile, tilePiece):
 		movePiece(tile)
 
 #Signal connect from chess piece script
-#Deselects
-func _on_Chess_Piece_Deselect():
+#Deselects and changes turn
+func _on_Turn_Over():
 	DeselectPiece()
+	whiteTurn = !whiteTurn
 
 #Selects piece
 func SelectPiece(chessPiece):
@@ -52,7 +54,7 @@ func SelectPiece(chessPiece):
 
 #Deselects piece
 func DeselectPiece():
-	if selectedPiece != null:
+	if selectedPiece != null and !selectedPiece.isMoving:
 		selectedPiece.isSelected = false
 		print(selectedPiece.name + " Deselected") #Debug
 		selectedPiece = null

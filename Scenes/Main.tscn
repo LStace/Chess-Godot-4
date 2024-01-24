@@ -217,4 +217,14 @@ startingTile = NodePath("../../Tiles/A1")
 position = Vector2(-160, 224)
 startingTile = NodePath("../../Tiles/B1")
 
+[node name="BlackChessPiece" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_fbc2b")]
+position = Vector2(224, -224)
+startingTile = NodePath("../../Tiles/H8")
+isWhite = false
+
+[node name="BlackChessPiece2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_fbc2b")]
+position = Vector2(160, -224)
+startingTile = NodePath("../../Tiles/G8")
+isWhite = false
+
 [node name="Camera2D" type="Camera2D" parent="."]
