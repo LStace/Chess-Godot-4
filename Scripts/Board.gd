@@ -8,7 +8,7 @@ extends TileMap
 var whiteTurn : bool = true
 
 #Stores reference to piece player is currently moving
-var selectedPiece : CharacterBody2D
+var selectedPiece : Area2D
 
 #Stores whether a piece is being clicked on in that frame
 #prevents player from moving to occupied space.
@@ -36,7 +36,10 @@ func _on_Tile_Clicked(tile, tilePiece):
 		#Player can only select their pieces
 		if selectedPiece == null and whiteTurn == tilePiece.isWhite:
 			SelectPiece(tilePiece)
-		#add taking code later
+		elif selectedPiece != null and whiteTurn != tilePiece.isWhite and tilePiece.pieceType != "King":
+			tilePiece.toBeCaptured = true
+			tile.heldPiece = null
+			movePiece(tile)
 	elif tilePiece == null and selectedPiece != null:
 		movePiece(tile)
 

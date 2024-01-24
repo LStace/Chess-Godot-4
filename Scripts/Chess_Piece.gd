@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Area2D
 class_name ChessPiece
 
 @export var startingTile : Area2D
@@ -6,6 +6,7 @@ class_name ChessPiece
 @export var pieceSprite : Texture2D
 @export var isWhite : bool = true
 @export var isSelected : bool = false
+var toBeCaptured = false
 
 # Variables for moving the piece
 @onready var targetTile = startingTile
@@ -34,3 +35,8 @@ func _physics_process(delta):
 			emit_signal("Turn_Over")
 		else:
 			global_position = global_position.move_toward(targetTile.global_position, 1000 * delta)
+
+#Piece is captured
+func _on_area_entered(area):
+	if area.is_in_group("Pieces") and toBeCaptured:
+		queue_free()

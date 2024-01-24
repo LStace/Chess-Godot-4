@@ -6,8 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_77mwc"]
 size = Vector2(32, 32)
 
-[node name="ChessPiece" type="CharacterBody2D" groups=["Pieces"]]
-input_pickable = true
+[node name="ChessPiece" type="Area2D" groups=["Pieces"]]
 script = ExtResource("2_f2f47")
 pieceSprite = ExtResource("1_rudg1")
 metadata/_edit_group_ = true
@@ -17,5 +16,6 @@ scale = Vector2(0.296875, 0.296875)
 texture = ExtResource("1_rudg1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_77mwc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

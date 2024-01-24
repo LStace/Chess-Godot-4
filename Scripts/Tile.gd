@@ -1,6 +1,6 @@
 extends Area2D
 
-var heldPiece : CharacterBody2D #Chess piece currently held by the tile. 
+var heldPiece : Area2D #Chess piece currently held by the tile. 
 
 @onready var chessBoard : TileMap = get_node("/root/Main/Board")
 
@@ -13,14 +13,14 @@ func _ready():
 
 
 #Gets which piece has moved through it and holds it if it is the target tile
-func _on_body_entered(body):
+func _on_area_entered(body):
 	print(self.name + " entered") #debug
 	if heldPiece == null and body.is_in_group("Pieces") and body.targetTile == self:
 		heldPiece = body
 		print(self.name + " holds " + heldPiece.name) #debug
 
 #Gets which piece has exited it
-func _on_body_exited(body):
+func _on_area_exited(body):
 	print(self.name + " exited") #debug
 	if heldPiece == body:
 		heldPiece = null
