@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://ue5ovggmofq3"]
+
+[ext_resource type="PackedScene" uid="uid://dylx6laro7dpl" path="res://Scenes/Chess_Piece.tscn" id="1_4vvat"]
+[ext_resource type="Texture2D" uid="uid://v8tpqe1et76o" path="res://Sprites/Pieces Placeholder/Rook.png" id="2_g24ie"]
+[ext_resource type="Script" path="res://Scripts/Rook.gd" id="2_r0grt"]
+
+[node name="Rook" instance=ExtResource("1_4vvat")]
+script = ExtResource("2_r0grt")
+pieceType = "Rook"
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2(1, 1)
+texture = ExtResource("2_g24ie")

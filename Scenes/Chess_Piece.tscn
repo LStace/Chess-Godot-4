@@ -8,7 +8,6 @@ size = Vector2(32, 32)
 
 [node name="ChessPiece" type="Area2D" groups=["Pieces"]]
 script = ExtResource("2_f2f47")
-pieceSprite = ExtResource("1_rudg1")
 metadata/_edit_group_ = true
 
 [node name="Sprite" type="Sprite2D" parent="."]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5m1m6vf36rua"]
+
+[ext_resource type="PackedScene" uid="uid://dylx6laro7dpl" path="res://Scenes/Chess_Piece.tscn" id="1_bhe3t"]
+[ext_resource type="Texture2D" uid="uid://bjkqqjy6v3c5s" path="res://Sprites/Pieces Placeholder/Bishop.png" id="2_86pfb"]
+[ext_resource type="Script" path="res://Scripts/Bishop.gd" id="2_shqvw"]
+
+[node name="Bishop" instance=ExtResource("1_bhe3t")]
+script = ExtResource("2_shqvw")
+pieceType = "Bishop"
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2(1, 1)
+texture = ExtResource("2_86pfb")

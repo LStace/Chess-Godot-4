@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4ad5lmev8euh"]
+
+[ext_resource type="PackedScene" uid="uid://dylx6laro7dpl" path="res://Scenes/Chess_Piece.tscn" id="1_27akf"]
+[ext_resource type="Script" path="res://Scripts/Pawn.gd" id="2_5p4mx"]
+[ext_resource type="Texture2D" uid="uid://dft4qvkv5v1a1" path="res://Sprites/Pieces Placeholder/Pawn.png" id="2_086wy"]
+
+[node name="Pawn" instance=ExtResource("1_27akf")]
+script = ExtResource("2_5p4mx")
+pieceType = "Pawn"
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2(1, 1)
+texture = ExtResource("2_086wy")

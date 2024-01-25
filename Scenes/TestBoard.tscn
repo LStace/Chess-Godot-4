@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdqrado48vtoi"]
+
+[ext_resource type="PackedScene" uid="uid://d3lcph26m24c4" path="res://Scenes/Board.tscn" id="1_vvcwi"]
+[ext_resource type="PackedScene" uid="uid://byble5cjtjdwv" path="res://Scenes/Knight.tscn" id="2_11u77"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Board" parent="." instance=ExtResource("1_vvcwi")]
+
+[node name="Pieces" type="Node2D" parent="Board"]
+
+[node name="Knight" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_11u77")]
+position = Vector2(-96, 96)
+startingTile = NodePath("../../Tiles/C3")
+
+[node name="Knight2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_11u77")]
+position = Vector2(96, -96)
+startingTile = NodePath("../../Tiles/F6")
+isWhite = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[editable path="Board"]
