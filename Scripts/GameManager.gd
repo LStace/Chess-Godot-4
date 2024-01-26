@@ -15,8 +15,18 @@ func _on_Turn_Over():
 	isWhiteTurn = !isWhiteTurn
 	StartTurn()
 
+func _on_Game_Over(losingKing):
+	pass
+
 func StartTurn():
-	if isWhiteTurn: $CanvasLayer/playerIndicator.text = "White"
-	else: $CanvasLayer/playerIndicator.text = "Black"
+	if isWhiteTurn: $UI/playerIndicator.text = "White"
+	else: $UI/playerIndicator.text = "Black"
+	for row in $Board.board:
+		for tile in row:
+			tile.inRangeOfBlack.clear()
+			tile.inRangeOfBlack.clear()
+			if tile.EnPasseTimeout == 0:
+				tile.EnPasse = null
+			else: tile.EnPasseTimeout = 0
 	#Tells pieces to check where they can move
 	prepare_next_turn.emit()

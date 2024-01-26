@@ -1,23 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdqrado48vtoi"]
+[gd_scene load_steps=6 format=3 uid="uid://bdqrado48vtoi"]
 
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_epfxd"]
 [ext_resource type="PackedScene" uid="uid://d3lcph26m24c4" path="res://Scenes/Board.tscn" id="1_vvcwi"]
-[ext_resource type="PackedScene" uid="uid://byble5cjtjdwv" path="res://Scenes/Knight.tscn" id="2_11u77"]
+[ext_resource type="PackedScene" uid="uid://c4ad5lmev8euh" path="res://Scenes/Pawn.tscn" id="3_d14ce"]
+[ext_resource type="PackedScene" uid="uid://d3ig0l5dlqhti" path="res://Scenes/ui.tscn" id="4_e02o0"]
+[ext_resource type="PackedScene" uid="uid://dhlnr7eu5p740" path="res://Scenes/King.tscn" id="4_xt0so"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_epfxd")
 
 [node name="Board" parent="." instance=ExtResource("1_vvcwi")]
 
 [node name="Pieces" type="Node2D" parent="Board"]
 
-[node name="Knight" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_11u77")]
+[node name="Pawn" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
+position = Vector2(32, 96)
+startingTile = NodePath("../../Tiles/E3")
+
+[node name="Pawn4" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
+position = Vector2(-224, -160)
+startingTile = NodePath("../../Tiles/A7")
+isWhite = false
+
+[node name="Pawn2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
 position = Vector2(-96, 96)
 startingTile = NodePath("../../Tiles/C3")
 
-[node name="Knight2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("2_11u77")]
-position = Vector2(96, -96)
-startingTile = NodePath("../../Tiles/F6")
+[node name="Pawn3" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
+position = Vector2(-32, -32)
+startingTile = NodePath("../../Tiles/D5")
+isWhite = false
+
+[node name="King" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("4_xt0so")]
+position = Vector2(96, 96)
+startingTile = NodePath("../../Tiles/F3")
+
+[node name="King2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("4_xt0so")]
+position = Vector2(96, -160)
+startingTile = NodePath("../../Tiles/F7")
 isWhite = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="UI" parent="." instance=ExtResource("4_e02o0")]
 
 [editable path="Board"]

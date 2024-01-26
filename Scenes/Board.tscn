@@ -11,6 +11,7 @@ layer_0/tile_data = PackedInt32Array(-65536, 2, 0, 65535, 2, 0, 0, 65538, 0, -1,
 script = ExtResource("2_ilwrm")
 
 [node name="Tiles" type="Node2D" parent="."]
+metadata/_edit_group_ = true
 
 [node name="A8" parent="Tiles" instance=ExtResource("3_vil5r")]
 position = Vector2(-224, -224)

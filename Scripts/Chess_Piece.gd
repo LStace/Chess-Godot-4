@@ -31,10 +31,17 @@ func _ready():
 		$Sprite.modulate = "000000"
 	
 	main.prepare_next_turn.connect(_on_prepare_next_turn)
+	pieceSpecificConnection()
+
+func pieceSpecificConnection():
+	pass
 
 #Gets all valid moves
 func _on_prepare_next_turn():
 	validMoves = getValidMoves()
+	for tiles in validMoves:
+		if isWhite: tiles.inRangeOfWhite.append(self)
+		else: tiles.inRangeOfBlack.append(self)
 
 #Gets valid moves (overwritten in child scripts)
 func getValidMoves():
