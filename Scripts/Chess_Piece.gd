@@ -13,6 +13,7 @@ var toBeCaptured = false
 var isMoving : bool = false
 
 @onready var chessBoard : TileMap = get_node("/root/Main/Board")
+@onready var main = get_node("/root/Main")
 var validMoves = []
 
 #Signal to deselect piece
@@ -21,7 +22,7 @@ signal Turn_Over()
 func _ready():
 	#Sets piece up
 	global_position = startingTile.global_position
-	Turn_Over.connect(chessBoard._on_Turn_Over)
+	Turn_Over.connect(main._on_Turn_Over)
 	
 	curTile = startingTile
 	curTile.heldPiece = self
@@ -29,7 +30,7 @@ func _ready():
 	if !isWhite:
 		$Sprite.modulate = "000000"
 	
-	chessBoard.prepare_next_turn.connect(_on_prepare_next_turn)
+	main.prepare_next_turn.connect(_on_prepare_next_turn)
 
 #Gets all valid moves
 func _on_prepare_next_turn():
@@ -85,6 +86,7 @@ func getCrossMoveTiles():
 			tempMoves.append(checkTile)
 	return tempMoves
 
+#In base class to be accessed by both bishop and queen
 func getDiagonalMoves():
 	var tempMoves = []
 	#[0] = NorthEast, [1] = SouthEast, [2] = SouthWest, [3] = NorthWest
@@ -95,13 +97,14 @@ func getDiagonalMoves():
 	
 	for dir in range(0,4):
 		for tile in range(1,8):
+			#Index of ile to be checked
 			var checkCol = curCol + (tile * moveDir[dir][0])
 			var checkRow = curRow + (tile * moveDir[dir][1])
 			#Check that tile is in range
 			if checkCol < 0 or checkCol >= 8 or checkRow < 0 or checkRow >= 8: break
 			
 			var checkTile = chessBoard.board[checkCol][checkRow]
-			
+			#piece can't jump over other pieces.
 			if checkTile.heldPiece != null and checkTile.heldPiece != self:
 				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":
 					tempMoves.append(checkTile)

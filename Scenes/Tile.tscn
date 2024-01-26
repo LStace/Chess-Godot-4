@@ -8,6 +8,15 @@ size = Vector2(64, 64)
 [node name="Area2D" type="Area2D" groups=["Tiles"]]
 script = ExtResource("1_iv8gk")
 
+[node name="legalTileIndicator" type="ColorRect" parent="."]
+visible = false
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(0.219608, 0.705882, 0.537255, 0.427451)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_q3dan")
 
