@@ -1,6 +1,6 @@
 extends ChessPiece
 
-signal Game_Over
+signal Game_Over(king)
 var isInCheck : bool = false
 
 func pieceSpecificConnection():
@@ -14,17 +14,21 @@ func getValidMoves():
 			#King can move one tile in any direction
 			if curTile.boardIndex.y + row < 0 or curTile.boardIndex.y + row >= 8: continue
 			var checkTile = chessBoard.board[curTile.boardIndex.x + col][curTile.boardIndex.y + row]
+			if isWhite: checkTile.inRangeOfWhite.append(self)
+			else: checkTile.inRangeOfBlack.append(self)
 			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == isWhite: continue
 			#King piece cannot move into a tile that is in range of an enemy piece
 			elif isWhite and checkTile.inRangeOfBlack != []: continue
 			elif !isWhite and checkTile.inRangeOfWhite != []: continue
 			tempMoves.append(checkTile)
 	
-	#King is the only piece allowed to move
+	#checks if the king is in check
 	if isWhite and curTile.inRangeOfBlack != []: isInCheck = true
 	elif !isWhite and curTile.inRangeOfWhite != []: isInCheck = true
-	
-	if tempMoves == []:
+	#The game ends if the king is in check and can't escape it.
+	if tempMoves == [] and ((isWhite and curTile.inRangeOfBlack.size() > 1) or (!isWhite and curTile.inRangeOfWhite.size() > 1)):
 		Game_Over.emit(self)
+		print(curTile.inRangeOfBlack)
+		print(curTile.inRangeOfWhite)
 	
 	return tempMoves

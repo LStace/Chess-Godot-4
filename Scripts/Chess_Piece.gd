@@ -39,9 +39,6 @@ func pieceSpecificConnection():
 #Gets all valid moves
 func _on_prepare_next_turn():
 	validMoves = getValidMoves()
-	for tiles in validMoves:
-		if isWhite: tiles.inRangeOfWhite.append(self)
-		else: tiles.inRangeOfBlack.append(self)
 
 #Gets valid moves (overwritten in child scripts)
 func getValidMoves():
@@ -61,36 +58,29 @@ func getCrossMoveTiles():
 	#Current index on board
 	var curCol = curTile.boardIndex.x
 	var curRow = curTile.boardIndex.y
-	#[0] = up & right, [1] = down & left
-	var moveDir = [1, -1]
-	
-	#Check up and down
-	for i in range(0, 2):
-		for j in range(1, 8):
-			if curCol + (j * moveDir[i]) >= 8 or curCol + (j * moveDir[i]) < 0: break
-			
-			var checkTile = chessBoard.board[curCol + (j * moveDir[i])][curRow]
-			
-			if checkTile.heldPiece != null  and checkTile.heldPiece != self:
-				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":
-					tempMoves.append(checkTile)
-				break
-			
-			tempMoves.append(checkTile)
-	
-	#Check right and left
-	for i in range(0, 2):
-		for j in range(1, 8):
-			if curRow + (j * moveDir[i]) >= 8 or curRow + (j * moveDir[i]) < 0: break
-			
-			var checkTile = chessBoard.board[curCol][curRow + (j * moveDir[i])]
-			
+	#[0] = up, [1] = right, [2] = down, [3] = left
+	var moveDir = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
+	#Loops for each direction
+	for i in range(0, 4):
+		#The maximum distance the piece can travel is 7 tiles
+		for count in range(1, 8):
+			var move = moveDir[i] * count
+			#Breaks loop if the tile is not in the range of the board
+			if curCol + move.x < 0 or curCol + move.x >= 8 or curRow + move.y < 0 or curRow + move.y >= 8: break
+			#Gets tile to check
+			var checkTile = chessBoard.board[curCol + move.x][curRow + move.y]
+			#tells king pieces that it will be in check if moved to this tile
+			if isWhite: checkTile.inRangeOfWhite.append(self)
+			else: checkTile.inRangeOfBlack.append(self)
+			#Piece cannot jump over other pieces
 			if checkTile.heldPiece != null and checkTile.heldPiece != self:
 				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":
 					tempMoves.append(checkTile)
 				break
-			
+				
 			tempMoves.append(checkTile)
+		
+		
 	return tempMoves
 
 #In base class to be accessed by both bishop and queen
@@ -111,6 +101,9 @@ func getDiagonalMoves():
 			if checkCol < 0 or checkCol >= 8 or checkRow < 0 or checkRow >= 8: break
 			
 			var checkTile = chessBoard.board[checkCol][checkRow]
+			#tells king pieces that it will be in check if moved to this tile
+			if isWhite: checkTile.inRangeOfWhite.append(self)
+			else: checkTile.inRangeOfBlack.append(self)
 			#piece can't jump over other pieces.
 			if checkTile.heldPiece != null and checkTile.heldPiece != self:
 				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":

@@ -20,8 +20,11 @@ func getValidMoves():
 		if curCol + movement[i][0] < 0 or curCol + movement[i][0] >= 8 or curRow + movement[i][1] < 0 or curRow + movement[i][1] >= 8:
 			continue
 		else:
-			#Checks that the tile to jumpt to does not contain an ally piece
+			#Checks that the tile to jump to does not contain an ally piece
 			var checkTile = chessBoard.board[curCol + movement[i][0]][curRow + movement[i][1]]
+			if isWhite: checkTile.inRangeOfWhite.append(self)
+			else: checkTile.inRangeOfBlack.append(self)
+			
 			if checkTile.heldPiece != null:
 				if checkTile.heldPiece.isWhite == isWhite:
 					continue
