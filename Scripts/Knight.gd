@@ -16,19 +16,13 @@ func getValidMoves():
 	var movement = [[-1, 2],[1, 2],[2, 1],[2,-1],[1, -2],[-1, -2],[-2, -1],[-2, 1]]
 	
 	for i in range(0, 8):
+		#Checks the legality of the tile
+		var checkTileResults = isMoveLegal(curCol + movement[i][0], curRow + movement[i][1])
 		#Prevents out of range index
-		if curCol + movement[i][0] < 0 or curCol + movement[i][0] >= 8 or curRow + movement[i][1] < 0 or curRow + movement[i][1] >= 8:
-			continue
-		else:
-			#Checks that the tile to jump to does not contain an ally piece
-			var checkTile = chessBoard.board[curCol + movement[i][0]][curRow + movement[i][1]]
-			if isWhite: checkTile.inRangeOfWhite.append(self)
-			else: checkTile.inRangeOfBlack.append(self)
-			
-			if checkTile.heldPiece != null:
-				if checkTile.heldPiece.isWhite == isWhite:
-					continue
-			#adds tile to moves
+		if checkTileResults == "OUT OF RANGE": continue
+		var checkTile = chessBoard.board[curCol + movement[i][0]][curRow + movement[i][1]]
+		#Knight can move to empty tiles and tiles holding enemy pieces
+		if checkTileResults == "EMPTY" or checkTileResults == "HOLDS ENEMY":
 			tempMoves.append(checkTile)
 
 	return tempMoves

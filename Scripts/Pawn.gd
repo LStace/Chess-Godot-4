@@ -11,38 +11,34 @@ func getValidMoves():
 	
 	if curTile.boardIndex.y != 0 and curTile.boardIndex.y != 7: 
 		for i in range(-1, 2):
-			if curTile.boardIndex.x + i >= 0 and curTile.boardIndex.x + i < 8:
-				var checkTile = chessBoard.board[curTile.boardIndex.x + i][curTile.boardIndex.y + moveDir]
-				#tells king pieces that it will be in check if moved to this tile
-				if isWhite: checkTile.inRangeOfWhite.append(self)
-				else: checkTile.inRangeOfBlack.append(self)
-				
-				if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == isWhite: continue
-				#Pawns can EnPasse
-				#If there is a piece that can bee enpasse'd through that tile, that piece is an enemy piece and that piece is left or right of the cuurent piece
+			var checkTileResult = isMoveLegal(curTile.boardIndex.x + i, curTile.boardIndex.y + moveDir)
+			#Prevents index out of range
+			if checkTileResult == "OUT OF RANGE": continue
+			var checkTile = chessBoard.board[curTile.boardIndex.x + i][curTile.boardIndex.y + moveDir]
+			
+			if i == 0:
+				#Pawns can move one space forward
+				if checkTileResult == "EMPTY" or checkTileResult == "HOLDS ENEMY":
+					tempMoves.append(checkTile)
+				#Pawns can move spaces if they haven't moved yet
+				if checkTileResult != "HOLDS ENEMY" and checkTileResult != "HOLDS ALLY" and checkTileResult != "HOLDS ALLY" and startingTile == curTile:
+					var firstMoveCheck = isMoveLegal(curTile.boardIndex.x, curTile.boardIndex.y + (moveDir*2))
+					if firstMoveCheck == "EMPTY" or firstMoveCheck == "HOLDS ENEMY":
+						tempMoves.append(chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + (moveDir*2)])
+						#Facilitates EnPasse
+						chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasse = self
+						chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasseTimeout = 1
+			#Pawn can move diagonally if there is an enemy piece or it can enpasse
+			else:
+				#Checks for enemy in diagonal
+				if checkTileResult == "HOLDS ENEMY":
+					tempMoves.append(checkTile)
+				#Checks for EnPasse
+				#If there is a piece that can be enpasse'd through that tile, that piece is an enemy piece and that piece is left or right of the curent piece
 				if checkTile.EnPasse != null and checkTile.EnPasse.isWhite != isWhite and chessBoard.board[curTile.boardIndex.x + i][curTile.boardIndex.y].heldPiece == checkTile.EnPasse:
 					tempMoves.append(checkTile)
 					canEnPasse = checkTile.EnPasse
 				else:
 					canEnPasse = null
-				#Pawns can move one space forward
-				#Pawns can move one space diagonally if an enemy piece is present 
-				
-				if i == 0 or (checkTile.heldPiece != null and checkTile.heldPiece.isWhite != isWhite):
-					tempMoves.append(checkTile)
-				#King can't move into a space diagonal from a pawn. 
-				else:
-					if isWhite: checkTile.inRangeOfWhite.append(self)
-					else: checkTile.inRangeOfBlack.append(self)
-
-	#Pawns can move an extra space if they haven't been moved yet, but can't jump over other pieces
-	if startingTile == curTile and chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].heldPiece == null:
-		tempMoves.append(chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + (moveDir*2)])
-		#tells king pieces that it will be in check if moved to this tile
-		if isWhite: chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + (moveDir*2)].inRangeOfWhite.append(self)
-		else: chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + (moveDir*2)].inRangeOfBlack.append(self)
-		#Piece can be captured by en passant
-		chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasse = self
-		chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasseTimeout = 1
 	
 	return tempMoves

@@ -3,6 +3,7 @@ class_name ChessPiece
 
 @export var startingTile : Area2D
 var curTile : Area2D
+var isHoldingKing : bool = false
 @export var pieceType : String = "Template"
 @export var isWhite : bool = true
 var isSelected : bool = false
@@ -38,6 +39,7 @@ func pieceSpecificConnection():
 
 #Gets all valid moves
 func _on_prepare_next_turn():
+	isHoldingKing = false
 	validMoves = getValidMoves()
 
 #Gets valid moves (overwritten in child scripts)
@@ -51,10 +53,40 @@ func getValidMoves():
 	
 	return tempMoves
 
+func isMoveLegal(column, row):
+	#Check if the move is out of range
+	if column >= 8 or column < 0 or row >= 8 or row < 0:
+		return "OUT OF RANGE"
+	else:
+		#Gets tile to check
+		var checkTile = chessBoard.board[column][row]
+		#tells king pieces that it will be in check if moved to this tile
+		if isWhite: 
+			checkTile.inRangeOfWhite.append(self)
+			print(self, checkTile.inRangeOfWhite)
+		else: 
+			checkTile.inRangeOfBlack.append(self)
+			print(self, checkTile.inRangeOfBlack)
+		#check if the tile is holding another piece
+		if checkTile.heldPiece != null and checkTile.heldPiece != self:
+			#Check if the piece belongs to the other player
+			if checkTile.heldPiece.isWhite != isWhite:
+				#Check if the piece is a king
+				if checkTile.heldPiece.pieceType == "King":
+					isHoldingKing = true
+					return "HOLDS ENEMY KING"
+				else:
+					return "HOLDS ENEMY"
+			else:
+				return "HOLDS ALLY"
+		else:
+			return "EMPTY"
+
 #used by queen & rook to get tiles
 #Breaks in for loops exist to prevent pieces from jumping over other pieces
 func getCrossMoveTiles():
 	var tempMoves = []
+	var checkTile
 	#Current index on board
 	var curCol = curTile.boardIndex.x
 	var curRow = curTile.boardIndex.y
@@ -65,21 +97,18 @@ func getCrossMoveTiles():
 		#The maximum distance the piece can travel is 7 tiles
 		for count in range(1, 8):
 			var move = moveDir[i] * count
-			#Breaks loop if the tile is not in the range of the board
-			if curCol + move.x < 0 or curCol + move.x >= 8 or curRow + move.y < 0 or curRow + move.y >= 8: break
-			#Gets tile to check
-			var checkTile = chessBoard.board[curCol + move.x][curRow + move.y]
-			#tells king pieces that it will be in check if moved to this tile
-			if isWhite: checkTile.inRangeOfWhite.append(self)
-			else: checkTile.inRangeOfBlack.append(self)
-			#Piece cannot jump over other pieces
-			if checkTile.heldPiece != null and checkTile.heldPiece != self:
-				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":
-					tempMoves.append(checkTile)
+			var checkTileResults = isMoveLegal(curCol + move.x, curRow + move.y)
+			
+			if checkTileResults == "OUT OF RANGE":
 				break
-				
-			tempMoves.append(checkTile)
-		
+			else:
+				checkTile = chessBoard.board[curCol + move.x][curRow + move.y]
+			
+			if checkTileResults == "EMPTY" or checkTileResults == "HOLDS ENEMY":
+				tempMoves.append(checkTile)
+			
+			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY" or checkTileResults == "HOLDS ENEMY KING":
+				break
 		
 	return tempMoves
 
@@ -97,19 +126,17 @@ func getDiagonalMoves():
 			#Index of ile to be checked
 			var checkCol = curCol + (tile * moveDir[dir][0])
 			var checkRow = curRow + (tile * moveDir[dir][1])
-			#Check that tile is in range
-			if checkCol < 0 or checkCol >= 8 or checkRow < 0 or checkRow >= 8: break
-			
+			#Check move legality
+			var checkTileResults = isMoveLegal(checkCol, checkRow)
+			#Piece can only move within the board
+			if checkTileResults == "OUT OF RANGE": break
 			var checkTile = chessBoard.board[checkCol][checkRow]
-			#tells king pieces that it will be in check if moved to this tile
-			if isWhite: checkTile.inRangeOfWhite.append(self)
-			else: checkTile.inRangeOfBlack.append(self)
-			#piece can't jump over other pieces.
-			if checkTile.heldPiece != null and checkTile.heldPiece != self:
-				if checkTile.heldPiece.isWhite != isWhite and checkTile.heldPiece.pieceType != "King":
-					tempMoves.append(checkTile)
+			#Piece can move to empty spaces and capture enemy pieces
+			if checkTileResults == "EMPTY" or checkTileResults == "HOLDS ENEMY":
+				tempMoves.append(checkTile)
+			#Piece cannot jump over other pieces
+			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY" or checkTileResults == "HOLDS ENEMY KING":
 				break
-			tempMoves.append(checkTile)
 				
 	return tempMoves
 
