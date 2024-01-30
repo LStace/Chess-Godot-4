@@ -1,7 +1,6 @@
 extends ChessPiece
 
 signal Game_Over(king)
-signal inCheck(king)
 var isInCheck : bool = false
 
 func pieceSpecificConnection():
@@ -24,6 +23,7 @@ func getValidMoves():
 	#checks if the king is in check
 	if isWhite and curTile.inRangeOfBlack != []: isInCheck = true
 	elif !isWhite and curTile.inRangeOfWhite != []: isInCheck = true
+	else: isInCheck = false
 	#The game ends if the king is in check and can't escape it.
 	if tempMoves == [] and ((isWhite and curTile.inRangeOfBlack.size() > 1) or (!isWhite and curTile.inRangeOfWhite.size() > 1)):
 		Game_Over.emit(self)

@@ -9,6 +9,13 @@ func _ready():
 	$UI/gameOverDisplay.visible = false
 	StartTurn()
 
+func _process(delta):
+	if $Board.whiteKing.isInCheck: $UI/whiteCheckIndicator.visible = true
+	else: $UI/whiteCheckIndicator.visible = false
+	
+	if $Board.blackKing.isInCheck: $UI/blackCheckIndicator.visible = true
+	else: $UI/blackCheckIndicator.visible = false
+
 #Signal connect from chess piece script
 #Deselects and changes turn
 func _on_Turn_Over():

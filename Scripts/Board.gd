@@ -1,6 +1,8 @@
 extends TileMap
 
 @onready var main = get_node("/root/Main")
+@onready var whiteKing : Area2D = get_node("Pieces/WhiteKing")
+@onready var blackKing : Area2D = get_node("Pieces/BlackKing")
 #Stores references to all board tiles
 #Board[column][row]
 @onready var board  = [
@@ -55,7 +57,10 @@ func SelectPiece(chessPiece):
 	
 	#Indicates places player can move their piece
 	for legalTile in selectedPiece.validMoves:
-		legalTile.get_node("legalTileIndicator").visible = true
+		#Prevents player from making moves that won't take the king out of check when in check
+		if selectedPiece.pieceType != "King" and ((selectedPiece.isWhite and whiteKing.isInCheck) or (!selectedPiece.isWhite and blackKing.isInCheck)) and (legalTile.heldPiece == null or (legalTile.heldPiece != null and legalTile.heldPiece.isHoldingKing == false)):
+				selectedPiece.validMoves.erase(legalTile)
+		else: legalTile.get_node("legalTileIndicator").visible = true
 
 #Deselects piece
 func DeselectPiece():

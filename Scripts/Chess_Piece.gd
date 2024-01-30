@@ -41,6 +41,7 @@ func pieceSpecificConnection():
 func _on_prepare_next_turn():
 	isHoldingKing = false
 	validMoves = getValidMoves()
+	print("%s %s " % [self.name,  curTile.name], isHoldingKing) #debug
 
 #Gets valid moves (overwritten in child scripts)
 func getValidMoves():
@@ -63,10 +64,21 @@ func isMoveLegal(column, row):
 		#tells king pieces that it will be in check if moved to this tile
 		if isWhite: 
 			checkTile.inRangeOfWhite.append(self)
-			print(self, checkTile.inRangeOfWhite)
 		else: 
 			checkTile.inRangeOfBlack.append(self)
-			print(self, checkTile.inRangeOfBlack)
+		
+#		if isWhite and chessBoard.whiteKing.isInCheck and pieceType != "King":
+#			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == false and checkTile.heldPiece.isHoldingKing == true:
+#				return "HOLDS ENEMY"
+#			else:
+#				return "KING IN CHECK"
+#		elif !isWhite and chessBoard.blackKing.isInCheck and pieceType != "King":
+#			print("King in check")
+#			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == true and checkTile.heldPiece.isHoldingKing == true:
+#				return "HOLDS ENEMY"
+#			else:
+#				return "KING IN CHECK"
+		
 		#check if the tile is holding another piece
 		if checkTile.heldPiece != null and checkTile.heldPiece != self:
 			#Check if the piece belongs to the other player
