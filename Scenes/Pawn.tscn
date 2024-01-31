@@ -7,7 +7,6 @@
 [node name="Pawn" instance=ExtResource("1_27akf")]
 script = ExtResource("2_5p4mx")
 pieceType = "Pawn"
-isWhite = false
 
 [node name="Sprite" parent="." index="0"]
 scale = Vector2(1, 1)

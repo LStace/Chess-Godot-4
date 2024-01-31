@@ -85,6 +85,7 @@ func isMoveLegal(column, row):
 				#Check if the piece is a king
 				if checkTile.heldPiece.pieceType == "King":
 					isHoldingKing = true
+					checkTile.heldPiece.validMoves = checkTile.heldPiece.getValidMoves()
 					return "HOLDS ENEMY KING"
 				else:
 					return "HOLDS ENEMY"
