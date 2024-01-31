@@ -64,7 +64,7 @@ func SelectPiece(chessPiece):
 
 #Deselects piece
 func DeselectPiece():
-	if selectedPiece != null and !selectedPiece.isMoving:
+	if selectedPiece != null and !selectedPiece.isMoving and !main.hasMoved:
 		#removes legal move indicator
 		for legalTile in selectedPiece.validMoves:
 			legalTile.get_node("legalTileIndicator").visible = false

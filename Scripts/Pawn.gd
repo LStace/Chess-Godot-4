@@ -1,6 +1,11 @@
 extends ChessPiece
 
 var canEnPasse : Area2D
+var pieceToPromoteTo : PackedScene
+
+func pieceSpecificConnection():
+	$promotionButtons.visible = false
+	Check_Pawn_Promotion.connect(_on_Check_Pawn_Promotion)
 
 #Get valid moves for a pawn
 func getValidMoves():
@@ -42,3 +47,22 @@ func getValidMoves():
 					canEnPasse = null
 	
 	return tempMoves
+
+
+func _on_Check_Pawn_Promotion():
+	if (curTile.boardIndex.y == 7 or curTile.boardIndex.y == 0) and curTile != startingTile:
+		$promotionButtons.visible = true
+	else: emit_signal("Turn_Over")
+
+func _on_Promotion_Pressed(newPiece):
+	#Instantiate new piece based on the button that was clicked
+	pieceToPromoteTo = ResourceLoader.load(newPiece)
+	var promotedPiece = pieceToPromoteTo.instantiate()
+	#Sets up the new piece
+	promotedPiece.startingTile = curTile
+	promotedPiece.isWhite = self.isWhite
+	#Adds the new pice to pieces
+	chessBoard.get_node("Pieces").add_child(promotedPiece)
+	#removes the pawn
+	queue_free()
+	emit_signal("Turn_Over")

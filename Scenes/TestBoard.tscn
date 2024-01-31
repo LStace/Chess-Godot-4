@@ -20,7 +20,6 @@ startingTile = NodePath("../../Tiles/E3")
 [node name="Pawn4" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
 position = Vector2(-224, -160)
 startingTile = NodePath("../../Tiles/A7")
-isWhite = false
 
 [node name="Pawn2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
 position = Vector2(-96, 96)
@@ -29,7 +28,6 @@ startingTile = NodePath("../../Tiles/C3")
 [node name="Pawn3" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("3_d14ce")]
 position = Vector2(-32, -32)
 startingTile = NodePath("../../Tiles/D5")
-isWhite = false
 
 [node name="King" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("4_xt0so")]
 position = Vector2(96, 96)
@@ -38,7 +36,6 @@ startingTile = NodePath("../../Tiles/F3")
 [node name="King2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("4_xt0so")]
 position = Vector2(96, -160)
 startingTile = NodePath("../../Tiles/F7")
-isWhite = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

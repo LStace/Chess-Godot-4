@@ -39,4 +39,6 @@ func _on_input_event(_viewport, event, _shape_idx):
 	#Tells the board the tile has been clicked and passes on the information
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		print("%s clicked" % self.name)
+		if heldPiece != null:
+			print(heldPiece.name)
 		Tile_Clicked.emit(self, heldPiece)

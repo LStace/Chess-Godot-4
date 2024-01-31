@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dylx6laro7dpl"]
+
+[ext_resource type="Texture2D" uid="uid://crgkmli8ab7gb" path="res://icon.svg" id="1_rudg1"]
+[ext_resource type="Script" path="res://Scripts/Chess_Piece.gd" id="2_f2f47"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_77mwc"]
+size = Vector2(32, 32)
+
+[node name="ChessPiece" type="Area2D" groups=["Pieces"]]
+script = ExtResource("2_f2f47")
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.296875, 0.296875)
+texture = ExtResource("1_rudg1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_77mwc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

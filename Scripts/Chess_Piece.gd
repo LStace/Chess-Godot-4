@@ -5,7 +5,7 @@ class_name ChessPiece
 var curTile : Area2D
 var isHoldingKing : bool = false
 @export var pieceType : String = "Template"
-@export var isWhite : bool = true
+@export var isWhite : bool
 var isSelected : bool = false
 var toBeCaptured = false
 
@@ -18,7 +18,8 @@ var isMoving : bool = false
 var validMoves = []
 
 #Signal to deselect piece
-signal Turn_Over()
+signal Turn_Over
+signal Check_Pawn_Promotion
 
 func _ready():
 	#Sets piece up
@@ -32,7 +33,18 @@ func _ready():
 		$Sprite.modulate = "000000"
 	
 	main.prepare_next_turn.connect(_on_prepare_next_turn)
-	pieceSpecificConnection()
+	pieceSpecificConnection()	
+
+func _physics_process(delta):
+	#Moves piece to new tile
+	if isMoving == true:
+		if targetTile.global_position == global_position:
+			isMoving = false
+			main.hasMoved = true
+			if pieceType == "Pawn": Check_Pawn_Promotion.emit()
+			else: emit_signal("Turn_Over")
+		else:
+			global_position = global_position.move_toward(targetTile.global_position, 1000 * delta)
 
 func pieceSpecificConnection():
 	pass
@@ -41,7 +53,6 @@ func pieceSpecificConnection():
 func _on_prepare_next_turn():
 	isHoldingKing = false
 	validMoves = getValidMoves()
-	print("%s %s " % [self.name,  curTile.name], isHoldingKing) #debug
 
 #Gets valid moves (overwritten in child scripts)
 func getValidMoves():
@@ -66,18 +77,6 @@ func isMoveLegal(column, row):
 			checkTile.inRangeOfWhite.append(self)
 		else: 
 			checkTile.inRangeOfBlack.append(self)
-		
-#		if isWhite and chessBoard.whiteKing.isInCheck and pieceType != "King":
-#			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == false and checkTile.heldPiece.isHoldingKing == true:
-#				return "HOLDS ENEMY"
-#			else:
-#				return "KING IN CHECK"
-#		elif !isWhite and chessBoard.blackKing.isInCheck and pieceType != "King":
-#			print("King in check")
-#			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == true and checkTile.heldPiece.isHoldingKing == true:
-#				return "HOLDS ENEMY"
-#			else:
-#				return "KING IN CHECK"
 		
 		#check if the tile is holding another piece
 		if checkTile.heldPiece != null and checkTile.heldPiece != self:
@@ -151,15 +150,6 @@ func getDiagonalMoves():
 				break
 				
 	return tempMoves
-
-func _physics_process(delta):
-	#Moves piece to new tile
-	if isMoving == true:
-		if targetTile.global_position == global_position:
-			isMoving = false
-			emit_signal("Turn_Over")
-		else:
-			global_position = global_position.move_toward(targetTile.global_position, 1000 * delta)
 
 #Piece is captured
 func _on_area_entered(area):

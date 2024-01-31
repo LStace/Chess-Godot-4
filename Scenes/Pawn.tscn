@@ -7,7 +7,41 @@
 [node name="Pawn" instance=ExtResource("1_27akf")]
 script = ExtResource("2_5p4mx")
 pieceType = "Pawn"
+isWhite = false
 
 [node name="Sprite" parent="." index="0"]
 scale = Vector2(1, 1)
 texture = ExtResource("2_086wy")
+
+[node name="promotionButtons" type="VBoxContainer" parent="." index="2"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -68.0
+offset_right = 85.0
+offset_bottom = 68.0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="rookPromote" type="Button" parent="promotionButtons" index="0"]
+layout_mode = 2
+text = "Rook"
+
+[node name="bishopPromote" type="Button" parent="promotionButtons" index="1"]
+layout_mode = 2
+text = "Bishop"
+
+[node name="knightPromote" type="Button" parent="promotionButtons" index="2"]
+layout_mode = 2
+text = "Knight"
+
+[node name="queenPromote" type="Button" parent="promotionButtons" index="3"]
+layout_mode = 2
+text = "Queen"
+
+[connection signal="pressed" from="promotionButtons/rookPromote" to="." method="_on_Promotion_Pressed" binds= [&"res://Scenes/Rook.tscn"]]
+[connection signal="pressed" from="promotionButtons/bishopPromote" to="." method="_on_Promotion_Pressed" binds= [&"res://Scenes/Bishop.tscn"]]
+[connection signal="pressed" from="promotionButtons/knightPromote" to="." method="_on_Promotion_Pressed" binds= [&"res://Scenes/Knight.tscn"]]
+[connection signal="pressed" from="promotionButtons/queenPromote" to="." method="_on_Promotion_Pressed" binds= [&"res://Scenes/Queen.tscn"]]

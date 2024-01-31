@@ -2,6 +2,7 @@ extends Node2D
 
 #Manages which player can move
 var isWhiteTurn : bool = true
+var hasMoved : bool = false # Prevents player from moving another piece while waiting to promote
 
 signal prepare_next_turn
 # Called when the node enters the scene tree for the first time.
@@ -19,6 +20,7 @@ func _process(delta):
 #Signal connect from chess piece script
 #Deselects and changes turn
 func _on_Turn_Over():
+	hasMoved = false
 	$Board.DeselectPiece()
 	isWhiteTurn = !isWhiteTurn
 	StartTurn()
