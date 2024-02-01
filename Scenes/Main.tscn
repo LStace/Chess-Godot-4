@@ -142,7 +142,6 @@ isWhite = true
 [node name="BlackKing" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("6_k73c5")]
 position = Vector2(32, -224)
 startingTile = NodePath("../../Tiles/E8")
-isWhite = null
 
 [node name="WhiteKnight" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_g37ko")]
 position = Vector2(-96, 224)

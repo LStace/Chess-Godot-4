@@ -73,10 +73,7 @@ func isMoveLegal(column, row):
 		#Gets tile to check
 		var checkTile = chessBoard.board[column][row]
 		#tells king pieces that it will be in check if moved to this tile
-		if isWhite: 
-			checkTile.inRangeOfWhite.append(self)
-		else: 
-			checkTile.inRangeOfBlack.append(self)
+		checkTile.inRangeOfPieces[int(isWhite)].append(self)
 		
 		#check if the tile is holding another piece
 		if checkTile.heldPiece != null and checkTile.heldPiece != self:

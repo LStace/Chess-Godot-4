@@ -35,8 +35,7 @@ func StartTurn():
 	else: $UI/playerIndicator.text = "Black"
 	for row in $Board.board:
 		for tile in row:
-			tile.inRangeOfBlack.clear()
-			tile.inRangeOfWhite.clear()
+			tile.inRangeOfPieces = [[],[]]
 			if tile.EnPasseTimeout == 0:
 				tile.EnPasse = null
 			else: tile.EnPasseTimeout = 0

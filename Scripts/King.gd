@@ -16,16 +16,14 @@ func getValidMoves():
 			#King piece can't move to a tile occupied by an ally
 			if checkTile.heldPiece != null and checkTile.heldPiece.isWhite == isWhite: continue
 			#King piece cannot move into a tile that is in range of an enemy piece
-			elif isWhite and checkTile.inRangeOfBlack != []: continue
-			elif !isWhite and checkTile.inRangeOfWhite != []: continue
+			elif checkTile.inRangeOfPieces[int(!isWhite)] != []: continue
 			else: tempMoves.append(checkTile)
 	
 	#checks if the king is in check
-	if isWhite and curTile.inRangeOfBlack != []: isInCheck = true
-	elif !isWhite and curTile.inRangeOfWhite != []: isInCheck = true
+	if curTile.inRangeOfPieces[int(!isWhite)] != []: isInCheck = true
 	else: isInCheck = false
 	#The game ends if the king is in check and can't escape it.
-	if tempMoves == [] and ((isWhite and curTile.inRangeOfBlack.size() > 1) or (!isWhite and curTile.inRangeOfWhite.size() > 1)):
+	if tempMoves == [] and curTile.inRangeOfPieces[int(!isWhite)].size() > 1:
 		Game_Over.emit(self)
 	
 	return tempMoves
