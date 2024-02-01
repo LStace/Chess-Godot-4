@@ -102,12 +102,10 @@ isWhite = true
 [node name="BlackRook" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("6_f0u2f")]
 position = Vector2(-224, -224)
 startingTile = NodePath("../../Tiles/A8")
-isWhite = null
 
 [node name="BlackRook2" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("6_f0u2f")]
 position = Vector2(224, -224)
 startingTile = NodePath("../../Tiles/H8")
-isWhite = null
 
 [node name="WhiteBishop" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_tkpyw")]
 position = Vector2(-160, 224)
@@ -122,12 +120,10 @@ isWhite = true
 [node name="BlackBishop3" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_tkpyw")]
 position = Vector2(-160, -224)
 startingTile = NodePath("../../Tiles/B8")
-isWhite = null
 
 [node name="BlackBishop4" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_tkpyw")]
 position = Vector2(160, -224)
 startingTile = NodePath("../../Tiles/G8")
-isWhite = null
 
 [node name="WhiteQueen" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("5_ctaah")]
 position = Vector2(-32, 224)
@@ -137,7 +133,6 @@ isWhite = true
 [node name="BlackQueen" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("5_ctaah")]
 position = Vector2(-32, -224)
 startingTile = NodePath("../../Tiles/D8")
-isWhite = null
 
 [node name="WhiteKing" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("6_k73c5")]
 position = Vector2(32, 224)

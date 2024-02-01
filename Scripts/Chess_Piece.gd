@@ -54,7 +54,7 @@ func _on_prepare_next_turn():
 	isHoldingKing = false
 	validMoves = getValidMoves()
 
-#Gets valid moves (overwritten in child scripts)
+#Gets valid moves (script is overwritten in child scripts)
 func getValidMoves():
 	var tempMoves = []
 	for col in range(-1, 2):
@@ -94,48 +94,16 @@ func isMoveLegal(column, row):
 		else:
 			return "EMPTY"
 
-#used by queen & rook to get tiles
-#Breaks in for loops exist to prevent pieces from jumping over other pieces
-func getCrossMoveTiles():
+#Used by rook, bishop & queen
+func get_Tile_Path(moveDir : Array):
 	var tempMoves = []
-	var checkTile
 	#Current index on board
 	var curCol = curTile.boardIndex.x
 	var curRow = curTile.boardIndex.y
-	#[0] = up, [1] = right, [2] = down, [3] = left
-	var moveDir = [Vector2(0, 1), Vector2(1, 0), Vector2(0, -1), Vector2(-1, 0)]
-	#Loops for each direction
-	for i in range(0, 4):
-		#The maximum distance the piece can travel is 7 tiles
-		for count in range(1, 8):
-			var move = moveDir[i] * count
-			var checkTileResults = isMoveLegal(curCol + move.x, curRow + move.y)
-			
-			if checkTileResults == "OUT OF RANGE":
-				break
-			else:
-				checkTile = chessBoard.board[curCol + move.x][curRow + move.y]
-			
-			if checkTileResults == "EMPTY" or checkTileResults == "HOLDS ENEMY":
-				tempMoves.append(checkTile)
-			
-			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY" or checkTileResults == "HOLDS ENEMY KING":
-				break
-		
-	return tempMoves
-
-#In base class to be accessed by both bishop and queen
-func getDiagonalMoves():
-	var tempMoves = []
-	#[0] = NorthEast, [1] = SouthEast, [2] = SouthWest, [3] = NorthWest
-	var moveDir = [[1,1],[1,-1],[-1,-1],[-1,1]]
-	#Current tile's index
-	var curCol = curTile.boardIndex.x
-	var curRow = curTile.boardIndex.y
 	
-	for dir in range(0,4):
+	for dir in range(0,len(moveDir)):
 		for tile in range(1,8):
-			#Index of ile to be checked
+			#Index of tile to be checked
 			var checkCol = curCol + (tile * moveDir[dir][0])
 			var checkRow = curRow + (tile * moveDir[dir][1])
 			#Check move legality
@@ -149,7 +117,7 @@ func getDiagonalMoves():
 			#Piece cannot jump over other pieces
 			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY" or checkTileResults == "HOLDS ENEMY KING":
 				break
-				
+	
 	return tempMoves
 
 #Piece is captured

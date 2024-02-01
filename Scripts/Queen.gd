@@ -1,11 +1,5 @@
 extends ChessPiece
 
 func getValidMoves():
-	#Scripts to get tiles exists in class
-	var tempMoves = getCrossMoveTiles()
-	var diagMove = getDiagonalMoves()
 	
-	#Combine arrays
-	for i in diagMove: tempMoves.append(i)
-	
-	return tempMoves
+	return get_Tile_Path([[0, 1],[1, 1],[1, 0],[1, -1],[0, -1],[-1, -1],[-1, 0],[-1, 1]])

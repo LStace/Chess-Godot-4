@@ -1,4 +1,4 @@
 extends ChessPiece
 
 func getValidMoves():
-	return getDiagonalMoves()
+	return get_Tile_Path([[1, 1],[1, -1],[-1, -1],[-1, 1]])
