@@ -6,8 +6,6 @@ var EnPasse : Area2D
 var EnPasseTimeout : int = 0
 var boardIndex : Vector2
 #Stores pieces that can move to this tile
-#var inRangeOfWhite = []
-#var inRangeOfBlack = []
 #[0] = black pieces, [1] = white pieces
 var inRangeOfPieces = [[],[]]
 

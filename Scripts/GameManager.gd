@@ -11,10 +11,10 @@ func _ready():
 	StartTurn()
 
 func _process(delta):
-	if $Board.whiteKing.isInCheck: $UI/whiteCheckIndicator.visible = true
+	if $Board.kings[1].isInCheck: $UI/whiteCheckIndicator.visible = true
 	else: $UI/whiteCheckIndicator.visible = false
 	
-	if $Board.blackKing.isInCheck: $UI/blackCheckIndicator.visible = true
+	if $Board.kings[0].isInCheck: $UI/blackCheckIndicator.visible = true
 	else: $UI/blackCheckIndicator.visible = false
 
 #Signal connect from chess piece script

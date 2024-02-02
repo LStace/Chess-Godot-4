@@ -1,8 +1,7 @@
 extends TileMap
 
 @onready var main = get_node("/root/Main")
-@onready var whiteKing : Area2D = get_node("Pieces/WhiteKing")
-@onready var blackKing : Area2D = get_node("Pieces/BlackKing")
+@onready var kings = [get_node("Pieces/BlackKing"),get_node("Pieces/WhiteKing")]
 #Stores references to all board tiles
 #Board[column][row]
 @onready var board  = [
@@ -28,8 +27,6 @@ func _ready():
 	for i in range(0, len(board)):
 		for j in range(0, len(board)):
 			board[i][j].boardIndex = Vector2(i, j)
-	
-#	StartTurn()
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -56,11 +53,21 @@ func SelectPiece(chessPiece):
 	chessPiece.isSelected = true
 	
 	#Indicates places player can move their piece
-	for legalTile in selectedPiece.validMoves:
+	for tile in selectedPiece.validMoves:
+		var king = kings[int(selectedPiece.isWhite)]
 		#Prevents player from making moves that won't take the king out of check when in check
-		if selectedPiece.pieceType != "King" and ((selectedPiece.isWhite and whiteKing.isInCheck) or (!selectedPiece.isWhite and blackKing.isInCheck)) and (legalTile.heldPiece == null or (legalTile.heldPiece != null and legalTile.heldPiece.isHoldingKing == false)):
-				selectedPiece.validMoves.erase(legalTile)
-		else: legalTile.get_node("legalTileIndicator").visible = true
+		#Check that this piece isn't the king and the player's king is in check
+		#Pawns and Knights can't have their path blocked by other pieces
+		#Will the move block the path to the king
+		#Will the move capture the piece that is holding the king in check
+		if selectedPiece.pieceType != "King" and king.isInCheck and\
+		((king.kingHolder != null and tile.heldPiece == null and (king.kingHolder.pieceType == "Pawn" or king.kingHolder.pieceType == "Knight")) 
+		or king.kingHolder == null
+		or (tile.heldPiece == null and (tile not in king.kingHolder.pathToKing)) 
+		or (tile.heldPiece != null and tile.heldPiece != king.kingHolder)):
+			selectedPiece.validMoves.erase(tile)
+		else:
+			tile.get_node("legalTileIndicator").visible = true
 
 #Deselects piece
 func DeselectPiece():

@@ -1,20 +1,23 @@
 extends Area2D
 class_name ChessPiece
 
+#References to game manager and the board
+@onready var chessBoard : TileMap = get_node("/root/Main/Board")
+@onready var main = get_node("/root/Main")
+#General information about the piece
 @export var startingTile : Area2D
 var curTile : Area2D
-var isHoldingKing : bool = false
 @export var pieceType : String = "Template"
 @export var isWhite : bool
-var isSelected : bool = false
-var toBeCaptured = false
-
+var king : Area2D
+#Used for check rules
+var isHoldingKing : bool = false
+var pathToKing : Array
 # Variables for moving the piece
 @onready var targetTile = startingTile
 var isMoving : bool = false
-
-@onready var chessBoard : TileMap = get_node("/root/Main/Board")
-@onready var main = get_node("/root/Main")
+var isSelected : bool = false
+var toBeCaptured = false
 var validMoves = []
 
 #Signal to deselect piece
@@ -51,7 +54,9 @@ func pieceSpecificConnection():
 
 #Gets all valid moves
 func _on_prepare_next_turn():
+	var king = chessBoard.kings[int(isWhite)]
 	isHoldingKing = false
+	pathToKing = []
 	validMoves = getValidMoves()
 
 #Gets valid moves (script is overwritten in child scripts)
@@ -99,6 +104,7 @@ func get_Tile_Path(moveDir : Array):
 	var curRow = curTile.boardIndex.y
 	
 	for dir in range(0,len(moveDir)):
+		var tempPath = []
 		for tile in range(1,8):
 			#Index of tile to be checked
 			var checkCol = curCol + (tile * moveDir[dir][0])
@@ -108,11 +114,15 @@ func get_Tile_Path(moveDir : Array):
 			#Piece can only move within the board
 			if checkTileResults == "OUT OF RANGE": break
 			var checkTile = chessBoard.board[checkCol][checkRow]
+			tempPath.append(checkTile)
 			#Piece can move to empty spaces and capture enemy pieces
 			if checkTileResults == "EMPTY" or checkTileResults == "HOLDS ENEMY":
 				tempMoves.append(checkTile)
 			#Piece cannot jump over other pieces
-			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY" or checkTileResults == "HOLDS ENEMY KING":
+			if checkTileResults == "HOLDS ALLY" or checkTileResults == "HOLDS ENEMY":
+				break
+			elif checkTileResults == "HOLDS ENEMY KING":
+				pathToKing = tempPath
 				break
 	
 	return tempMoves

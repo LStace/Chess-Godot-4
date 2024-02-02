@@ -2,6 +2,7 @@ extends ChessPiece
 
 signal Game_Over(king)
 var isInCheck : bool = false
+var kingHolder : Area2D
 
 func pieceSpecificConnection():
 	Game_Over.connect(main._on_Game_Over)
@@ -25,5 +26,9 @@ func getValidMoves():
 	#The game ends if the king is in check and can't escape it.
 	if tempMoves == [] and curTile.inRangeOfPieces[int(!isWhite)].size() > 1:
 		Game_Over.emit(self)
+	elif curTile.inRangeOfPieces[int(!isWhite)].size() == 1:
+		kingHolder = curTile.inRangeOfPieces[int(!isWhite)][0]
+		print(self.name + " " + kingHolder.name) #debug
+	else: kingHolder == null
 	
 	return tempMoves
