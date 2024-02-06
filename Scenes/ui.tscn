@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3ig0l5dlqhti"]
+[gd_scene load_steps=6 format=3 uid="uid://d3ig0l5dlqhti"]
 
 [ext_resource type="LabelSettings" uid="uid://bo0xqhqpglfj6" path="res://Resources/BoardLabelSettings.tres" id="1_nx5ix"]
 [ext_resource type="LabelSettings" uid="uid://cvc84lhpse37v" path="res://Resources/ui.tres" id="2_mnjr6"]
+[ext_resource type="Script" path="res://Scripts/restartButton.gd" id="3_yxqxj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_85sif"]
 font_size = 46
@@ -152,3 +153,13 @@ grow_vertical = 2
 text = "WINS
 "
 label_settings = SubResource("LabelSettings_rt8sh")
+
+[node name="restartButton" type="Button" parent="."]
+offset_left = -552.0
+offset_top = 272.0
+offset_right = -487.0
+offset_bottom = 303.0
+text = "Restart"
+script = ExtResource("3_yxqxj")
+
+[connection signal="pressed" from="restartButton" to="restartButton" method="_on_pressed"]
