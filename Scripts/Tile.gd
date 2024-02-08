@@ -21,7 +21,7 @@ func _ready():
 
 #Gets which piece has moved through it and holds it if it is the target tile
 func _on_area_entered(body):
-	if heldPiece == null and body.is_in_group("Pieces") and body.targetTile == self:
+	if body.is_in_group("Pieces") and body.targetTile == self:
 		heldPiece = body
 		heldPiece.curTile = self
 		
@@ -38,7 +38,4 @@ func _on_area_exited(body):
 func _on_input_event(_viewport, event, _shape_idx):
 	#Tells the board the tile has been clicked and passes on the information
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("%s clicked" % self.name)
-		if heldPiece != null:
-			print(heldPiece.name)
 		Tile_Clicked.emit(self, heldPiece)
