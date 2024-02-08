@@ -11,7 +11,7 @@ func getValidMoves():
 	var tempMoves = []
 	for col in range(-1, 2):
 		for row in range(-1, 2):
-			var checkTileResult = isMoveLegal(curTile.boardIndex.x + col, curTile.boardIndex.y + row)
+			var checkTileResult = isMoveLegal(curTile.boardIndex.x + col, curTile.boardIndex.y + row, false)
 			if checkTileResult == "OUT OF RANGE": continue
 			var checkTile = chessBoard.board[curTile.boardIndex.x + col][curTile.boardIndex.y + row]
 			#King piece can't move to a tile occupied by an ally

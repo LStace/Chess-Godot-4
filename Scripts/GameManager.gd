@@ -39,5 +39,10 @@ func StartTurn():
 			if tile.EnPasseTimeout == 0:
 				tile.EnPasse = null
 			else: tile.EnPasseTimeout = 0
+			
+			if tile.heldPiece != null:
+				tile.heldPiece.isHoldingKing = false
+				tile.heldPiece.blocking.clear()
+				tile.heldPiece.pathToKing.clear()
 	#Tells pieces to check where they can move
 	prepare_next_turn.emit()

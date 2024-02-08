@@ -16,7 +16,7 @@ func getValidMoves():
 	
 	if curTile.boardIndex.y != 0 and curTile.boardIndex.y != 7: 
 		for i in range(-1, 2):
-			var checkTileResult = isMoveLegal(curTile.boardIndex.x + i, curTile.boardIndex.y + moveDir)
+			var checkTileResult = isMoveLegal(curTile.boardIndex.x + i, curTile.boardIndex.y + moveDir, false)
 			#Prevents index out of range
 			if checkTileResult == "OUT OF RANGE": continue
 			var checkTile = chessBoard.board[curTile.boardIndex.x + i][curTile.boardIndex.y + moveDir]
@@ -26,13 +26,16 @@ func getValidMoves():
 				if checkTileResult == "EMPTY" or checkTileResult == "HOLDS ENEMY":
 					tempMoves.append(checkTile)
 				#Pawns can move spaces if they haven't moved yet
-				if checkTileResult != "HOLDS ENEMY" and checkTileResult != "HOLDS ALLY" and checkTileResult != "HOLDS ALLY" and startingTile == curTile:
-					var firstMoveCheck = isMoveLegal(curTile.boardIndex.x, curTile.boardIndex.y + (moveDir*2))
-					if firstMoveCheck == "EMPTY" or firstMoveCheck == "HOLDS ENEMY":
+				if checkTileResult != "HOLDS ALLY" and startingTile == curTile:
+					var firstMoveCheck = isMoveLegal(curTile.boardIndex.x, curTile.boardIndex.y + (moveDir*2), checkTileResult == "HOLDS ENEMY")
+					if (firstMoveCheck == "EMPTY" or firstMoveCheck == "HOLDS ENEMY") and checkTileResult != "HOLDS ENEMY":
 						tempMoves.append(chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + (moveDir*2)])
 						#Facilitates EnPasse
 						chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasse = self
 						chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir].EnPasseTimeout = 1
+					elif firstMoveCheck == "HOLDS ENEMY KING":
+						pathToKing = [checkTile,chessBoard.board[curTile.boardIndex.x][curTile.boardIndex.y + moveDir]]
+						checkTile.heldPiece.blocking.append(self)
 			#Pawn can move diagonally if there is an enemy piece or it can enpasse
 			else:
 				#Checks for enemy in diagonal

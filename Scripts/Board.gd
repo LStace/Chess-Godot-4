@@ -51,6 +51,7 @@ func _on_Tile_Clicked(tile, tilePiece):
 func SelectPiece(chessPiece):
 	selectedPiece = chessPiece
 	chessPiece.isSelected = true
+	print(chessPiece.name, chessPiece.blocking)
 	
 	#Indicates places player can move their piece
 	for tile in selectedPiece.validMoves:
@@ -66,6 +67,13 @@ func SelectPiece(chessPiece):
 		or (tile.heldPiece == null and (tile not in king.kingHolder.pathToKing)) 
 		or (tile.heldPiece != null and tile.heldPiece != king.kingHolder)):
 			selectedPiece.validMoves.erase(tile)
+		elif !selectedPiece.blocking.is_empty():
+			for piece in selectedPiece.blocking:
+				if tile not in piece.pathToKing and tile.heldPiece != piece:
+					selectedPiece.validMoves.erase(tile)
+					break
+				else:
+					tile.get_node("legalTileIndicator").visible = true
 		else:
 			tile.get_node("legalTileIndicator").visible = true
 

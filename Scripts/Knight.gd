@@ -17,7 +17,7 @@ func getValidMoves():
 	
 	for i in range(0, 8):
 		#Checks the legality of the tile
-		var checkTileResults = isMoveLegal(curCol + movement[i][0], curRow + movement[i][1])
+		var checkTileResults = isMoveLegal(curCol + movement[i][0], curRow + movement[i][1], false)
 		#Prevents out of range index
 		if checkTileResults == "OUT OF RANGE": continue
 		var checkTile = chessBoard.board[curCol + movement[i][0]][curRow + movement[i][1]]

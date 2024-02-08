@@ -142,6 +142,7 @@ isWhite = true
 [node name="BlackKing" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("6_k73c5")]
 position = Vector2(32, -224)
 startingTile = NodePath("../../Tiles/E8")
+isWhite = null
 
 [node name="WhiteKnight" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_g37ko")]
 position = Vector2(-96, 224)
@@ -156,12 +157,10 @@ isWhite = true
 [node name="BlackKnight3" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_g37ko")]
 position = Vector2(-96, -224)
 startingTile = NodePath("../../Tiles/C8")
-isWhite = null
 
 [node name="BlackKnight4" parent="Board/Pieces" node_paths=PackedStringArray("startingTile") instance=ExtResource("7_g37ko")]
 position = Vector2(96, -224)
 startingTile = NodePath("../../Tiles/F8")
-isWhite = null
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.015, 1.015)
