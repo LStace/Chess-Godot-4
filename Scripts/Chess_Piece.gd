@@ -47,6 +47,11 @@ func _physics_process(delta):
 			main.hasMoved = true
 			hasMoved = true
 			if pieceType == "Pawn": Check_Pawn_Promotion.emit()
+			#Tell castling rook to move
+			elif pieceType == "King" and targetTile.castle:
+				self.tileToRook[targetTile][0].targetTile = self.tileToRook[targetTile][1]
+				self.tileToRook[targetTile][0].isMoving = true
+				self.tileToRook[targetTile][1].heldPiece = self.tileToRook[targetTile][0]
 			else: emit_signal("Turn_Over")
 		else:
 			global_position = global_position.move_toward(targetTile.global_position, 1000 * delta)

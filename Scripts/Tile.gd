@@ -9,6 +9,8 @@ var boardIndex : Vector2
 #[0] = black pieces, [1] = white pieces
 var inRangeOfPieces = [[],[]]
 
+var castle : bool = false
+
 signal Tile_Clicked(tile, piece)
 
 #Gets which piece has moved through it and holds it if it is the target tile
