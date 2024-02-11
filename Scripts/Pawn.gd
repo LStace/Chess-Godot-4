@@ -1,7 +1,8 @@
 extends ChessPiece
 
 var canEnPasse : Area2D
-var pieceToPromoteTo : PackedScene
+
+signal Pawn_Promotion(pawn, newPiece)
 
 func pieceSpecificConnection():
 	$promotionButtons.visible = false
@@ -58,14 +59,6 @@ func _on_Check_Pawn_Promotion():
 	else: emit_signal("Turn_Over")
 
 func _on_Promotion_Pressed(newPiece):
-	#Instantiate new piece based on the button that was clicked
-	pieceToPromoteTo = ResourceLoader.load(newPiece)
-	var promotedPiece = pieceToPromoteTo.instantiate()
-	#Sets up the new piece
-	promotedPiece.startingTile = curTile
-	promotedPiece.isWhite = self.isWhite
-	#Adds the new pice to pieces
-	chessBoard.get_node("Pieces").add_child(promotedPiece)
-	#removes the pawn
-	queue_free()
+	Pawn_Promotion.emit(self, newPiece)
 	emit_signal("Turn_Over")
+	

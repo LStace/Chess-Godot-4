@@ -6,6 +6,7 @@ class_name ChessPiece
 @onready var main = get_node("/root/Main")
 #General information about the piece
 @export var startingTile : Area2D
+var hasMoved : bool = false
 var curTile : Area2D
 @export var pieceType : String = "Template"
 @export var isWhite : bool
@@ -19,7 +20,8 @@ var blocking : Array
 var isMoving : bool = false
 var isSelected : bool = false
 var toBeCaptured = false
-var validMoves = []
+var potentialMoves = []
+var validMoves : Array
 
 #Signal to deselect piece
 signal Turn_Over
@@ -28,15 +30,13 @@ signal Check_Pawn_Promotion
 func _ready():
 	#Sets piece up
 	global_position = startingTile.global_position
-	Turn_Over.connect(main._on_Turn_Over)
 	
 	curTile = startingTile
 	curTile.heldPiece = self
 	
 	if !isWhite:
 		$Sprite.modulate = "000000"
-	
-	main.prepare_next_turn.connect(_on_prepare_next_turn)
+		
 	pieceSpecificConnection()	
 
 func _physics_process(delta):
@@ -45,6 +45,7 @@ func _physics_process(delta):
 		if targetTile.global_position == global_position:
 			isMoving = false
 			main.hasMoved = true
+			hasMoved = true
 			if pieceType == "Pawn": Check_Pawn_Promotion.emit()
 			else: emit_signal("Turn_Over")
 		else:
@@ -55,7 +56,7 @@ func pieceSpecificConnection():
 
 #Gets all valid moves
 func _on_prepare_next_turn():
-	validMoves = getValidMoves()
+	potentialMoves = getValidMoves()
 
 #Gets valid moves (script is overwritten in child scripts)
 func getValidMoves():
@@ -83,10 +84,10 @@ func isMoveLegal(column, row, pathBlocked):
 			#Check if the piece belongs to the other player
 			if checkTile.heldPiece.isWhite != isWhite:
 				#Check if the piece is a king
-				if checkTile.heldPiece.pieceType == "King":
+				if checkTile.heldPiece.pieceType == "King" and pieceType!= "King":
 					if !pathBlocked:
 						isHoldingKing = true
-						checkTile.heldPiece.validMoves = checkTile.heldPiece.getValidMoves()
+						checkTile.heldPiece.potentialMoves = checkTile.heldPiece.getValidMoves()
 					return "HOLDS ENEMY KING"
 				else:
 					return "HOLDS ENEMY"

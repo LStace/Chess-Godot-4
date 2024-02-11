@@ -9,22 +9,12 @@ var boardIndex : Vector2
 #[0] = black pieces, [1] = white pieces
 var inRangeOfPieces = [[],[]]
 
-@onready var chessBoard : TileMap = get_node("/root/Main/Board")
-
 signal Tile_Clicked(tile, piece)
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	#Connects signal to board
-	Tile_Clicked.connect(chessBoard._on_Tile_Clicked)
-
 
 #Gets which piece has moved through it and holds it if it is the target tile
 func _on_area_entered(body):
 	if body.is_in_group("Pieces") and body.targetTile == self:
-		heldPiece = body
 		heldPiece.curTile = self
-		
 		#EnPasse capture
 		if body.pieceType == "Pawn" and EnPasse != null and EnPasse == body.canEnPasse:
 			EnPasse.queue_free()
@@ -33,7 +23,6 @@ func _on_area_entered(body):
 func _on_area_exited(body):
 	if heldPiece == body:
 		heldPiece = null
-
 
 func _on_input_event(_viewport, event, _shape_idx):
 	#Tells the board the tile has been clicked and passes on the information

@@ -4,10 +4,22 @@ extends Node2D
 var isWhiteTurn : bool = true
 var hasMoved : bool = false # Prevents player from moving another piece while waiting to promote
 
+@onready var chessPieces = get_tree().get_nodes_in_group("Pieces")
+
 signal prepare_next_turn
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$UI/gameOverDisplay.visible = false
+	
+	for piece in chessPieces:
+		piece.Turn_Over.connect(_on_Turn_Over)
+		prepare_next_turn.connect(piece._on_prepare_next_turn)
+		
+		if piece.pieceType == "Pawn":
+			piece.Pawn_Promotion.connect(_on_Pawn_Promotion)
+		elif piece.pieceType == "King":
+			piece.Game_Over.connect(_on_Game_Over)
+	
 	StartTurn()
 
 func _process(delta):
@@ -46,3 +58,15 @@ func StartTurn():
 				tile.heldPiece.pathToKing.clear()
 	#Tells pieces to check where they can move
 	prepare_next_turn.emit()
+
+func _on_Pawn_Promotion(pawn, newPiece):
+	#Instantiate new piece based on the button that was clicked
+	var promotedPiece = ResourceLoader.load(newPiece).instantiate()
+	#Sets up the new piece
+	promotedPiece.startingTile = pawn.curTile
+	promotedPiece.isWhite = pawn.isWhite
+	promotedPiece.Turn_Over.connect(_on_Turn_Over)
+	prepare_next_turn.connect(promotedPiece._on_prepare_next_turn)
+	#Adds the new pice to pieces
+	$Board.get_node("Pieces").add_child(promotedPiece)
+	pawn.queue_free()

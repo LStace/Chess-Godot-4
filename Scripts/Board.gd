@@ -27,6 +27,7 @@ func _ready():
 	for i in range(0, len(board)):
 		for j in range(0, len(board)):
 			board[i][j].boardIndex = Vector2(i, j)
+			board[i][j].Tile_Clicked.connect(_on_Tile_Clicked)
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -50,38 +51,42 @@ func _on_Tile_Clicked(tile, tilePiece):
 #Selects piece
 func SelectPiece(chessPiece):
 	selectedPiece = chessPiece
+	selectedPiece.validMoves.clear()
 	chessPiece.isSelected = true
-	print(chessPiece.name, chessPiece.blocking)
 	
 	#Indicates places player can move their piece
-	for tile in selectedPiece.validMoves:
+	for tile in selectedPiece.potentialMoves:
 		var king = kings[int(selectedPiece.isWhite)]
 		#Prevents player from making moves that won't take the king out of check when in check
 		#Check that this piece isn't the king and the player's king is in check
 		#Pawns and Knights can't have their path blocked by other pieces
 		#Will the move block the path to the king
 		#Will the move capture the piece that is holding the king in check
+		#Prevents the king from moving into a space that would result in check
 		if selectedPiece.pieceType != "King" and king.isInCheck and\
 		((king.kingHolder != null and tile.heldPiece == null and (king.kingHolder.pieceType == "Pawn" or king.kingHolder.pieceType == "Knight")) 
 		or king.kingHolder == null
 		or (tile.heldPiece == null and (tile not in king.kingHolder.pathToKing)) 
-		or (tile.heldPiece != null and tile.heldPiece != king.kingHolder)):
-			selectedPiece.validMoves.erase(tile)
+		or (tile.heldPiece != null and tile.heldPiece != king.kingHolder))\
+		or (selectedPiece.pieceType == "King" and not tile.inRangeOfPieces[int(!selectedPiece.isWhite)].is_empty()):
+			continue
 		elif !selectedPiece.blocking.is_empty():
 			for piece in selectedPiece.blocking:
 				if tile not in piece.pathToKing and tile.heldPiece != piece:
-					selectedPiece.validMoves.erase(tile)
 					break
 				else:
 					tile.get_node("legalTileIndicator").visible = true
-		else:
-			tile.get_node("legalTileIndicator").visible = true
+					selectedPiece.validMoves.append(tile)
+		else: selectedPiece.validMoves.append(tile)
+
+	for tile in selectedPiece.validMoves:
+		tile.get_node("legalTileIndicator").visible = true
 
 #Deselects piece
 func DeselectPiece():
 	if selectedPiece != null and !selectedPiece.isMoving and !main.hasMoved:
 		#removes legal move indicator
-		for legalTile in selectedPiece.validMoves:
+		for legalTile in selectedPiece.potentialMoves:
 			legalTile.get_node("legalTileIndicator").visible = false
 		selectedPiece.isSelected = false
 		selectedPiece = null
@@ -91,7 +96,8 @@ func DeselectPiece():
 func movePiece(tile):
 	if tile in selectedPiece.validMoves:
 		#removes legal move indicator
-		for legalTile in selectedPiece.validMoves:
+		for legalTile in selectedPiece.potentialMoves:
 			legalTile.get_node("legalTileIndicator").visible = false
 		selectedPiece.isMoving = true
 		selectedPiece.targetTile = tile
+		tile.heldPiece = selectedPiece

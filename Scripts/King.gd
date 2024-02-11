@@ -4,11 +4,21 @@ signal Game_Over(king)
 var isInCheck : bool = false
 var kingHolder : Area2D
 
-func pieceSpecificConnection():
-	Game_Over.connect(main._on_Game_Over)
+var kingSideCastling
+var queenSideCastling
 
 func getValidMoves():
 	var tempMoves = []
+	
+#	if hasMoved == false:
+#		var castling = [chessBoard.board[curTile.boardIndex.x + 3][curTile.boardIndex.y], chessBoard.board[curTile.boardIndex.x - 4][curTile.boardIndex.y].heldPiece.pieceType]
+##		for i in range(0,1):
+##			if castling[i].heldPiece != null\
+##			and castling[i].heldPiece.pieceType == "Rook"\
+##			and castling[i].heldPiece.hasMoved == false\
+##			and castling[i].heldPiece.isWhite == isWhite:
+#
+	
 	for col in range(-1, 2):
 		for row in range(-1, 2):
 			var checkTileResult = isMoveLegal(curTile.boardIndex.x + col, curTile.boardIndex.y + row, false)
@@ -28,7 +38,6 @@ func getValidMoves():
 		Game_Over.emit(self)
 	elif curTile.inRangeOfPieces[int(!isWhite)].size() == 1:
 		kingHolder = curTile.inRangeOfPieces[int(!isWhite)][0]
-		print(self.name + " " + kingHolder.name) #debug
 	else: kingHolder == null
 	
 	return tempMoves
