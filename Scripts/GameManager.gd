@@ -28,6 +28,11 @@ func _process(delta):
 	
 	if $Board.kings[0].isInCheck: $UI/blackCheckIndicator.visible = true
 	else: $UI/blackCheckIndicator.visible = false
+	
+	if $Board.selectedPiece != null and !$Board.selectedPiece.isMoving:
+		$UI/selectedIndicator.text = "%s %s" % [$Board.selectedPiece.pieceType, $Board.selectedPiece.curTile.name]
+	elif $Board.selectedPiece == null:
+		$UI/selectedIndicator.text = "N/A"
 
 #Signal connect from chess piece script
 #Deselects and changes turn

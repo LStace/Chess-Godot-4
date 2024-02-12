@@ -74,29 +74,47 @@ text = "Current Player: "
 label_settings = ExtResource("2_mnjr6")
 
 [node name="playerIndicator" type="Label" parent="."]
-offset_left = -552.0
+offset_left = -496.0
 offset_top = -160.0
-offset_right = -396.0
+offset_right = -340.0
 offset_bottom = -123.0
 text = "White"
 label_settings = ExtResource("2_mnjr6")
 horizontal_alignment = 2
 
+[node name="selectedLabel" type="Label" parent="."]
+offset_left = -552.0
+offset_top = -120.0
+offset_right = -372.0
+offset_bottom = -83.0
+text = "Selected Piece:"
+label_settings = ExtResource("2_mnjr6")
+
+[node name="selectedIndicator" type="Label" parent="."]
+offset_left = -496.0
+offset_top = -88.0
+offset_right = -340.0
+offset_bottom = -51.0
+label_settings = ExtResource("2_mnjr6")
+horizontal_alignment = 2
+
 [node name="whiteCheckIndicator" type="Label" parent="."]
 offset_left = -552.0
-offset_top = -104.0
-offset_right = -392.0
-offset_bottom = -67.0
+offset_top = -32.0
+offset_right = -334.0
+offset_bottom = 5.0
 text = "White King is in Check"
 label_settings = ExtResource("2_mnjr6")
+horizontal_alignment = 2
 
 [node name="blackCheckIndicator" type="Label" parent="."]
 offset_left = -552.0
-offset_top = -56.0
-offset_right = -392.0
-offset_bottom = -19.0
+offset_top = 16.0
+offset_right = -336.0
+offset_bottom = 53.0
 text = "Black King is in Check"
 label_settings = ExtResource("2_mnjr6")
+horizontal_alignment = 2
 
 [node name="Instructions" type="Label" parent="."]
 offset_left = -552.0

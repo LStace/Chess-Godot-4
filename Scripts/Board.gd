@@ -53,6 +53,7 @@ func SelectPiece(chessPiece):
 	selectedPiece = chessPiece
 	selectedPiece.validMoves.clear()
 	chessPiece.isSelected = true
+	selectedPiece.curTile.get_node("selectedIndicator").visible = true
 	
 	#Indicates places player can move their piece
 	for tile in selectedPiece.potentialMoves:
@@ -85,7 +86,8 @@ func SelectPiece(chessPiece):
 #Deselects piece
 func DeselectPiece():
 	if selectedPiece != null and !selectedPiece.isMoving and !main.hasMoved:
-		#removes legal move indicator
+		#removes tile indicators
+		selectedPiece.curTile.get_node("selectedIndicator").visible = false
 		for legalTile in selectedPiece.potentialMoves:
 			legalTile.get_node("legalTileIndicator").visible = false
 		selectedPiece.isSelected = false
@@ -95,7 +97,8 @@ func DeselectPiece():
 #Sets piece's destination
 func movePiece(tile):
 	if tile in selectedPiece.validMoves:
-		#removes legal move indicator
+		#removes tile indicators
+		selectedPiece.curTile.get_node("selectedIndicator").visible = false
 		for legalTile in selectedPiece.potentialMoves:
 			legalTile.get_node("legalTileIndicator").visible = false
 		selectedPiece.isMoving = true
